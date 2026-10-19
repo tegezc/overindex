@@ -7,6 +7,14 @@ describe("buildHealth", () => {
     expect(buildHealth(loadEnv({ USE_FAKE_QLOO: "true" }))).toEqual({ ok: true, qloo: "unchecked", llm: "missing" });
   });
 
+  it("reports an explicit qloo probe without adding other fields", () => {
+    expect(buildHealth(loadEnv({ USE_FAKE_QLOO: "true" }), "ready")).toEqual({
+      ok: true,
+      qloo: "ready",
+      llm: "missing",
+    });
+  });
+
   it("reports llm configured without exposing the key", () => {
     const health = buildHealth(loadEnv({ OPENAI_API_KEY: "test-openai" }));
     expect(health.llm).toBe("configured");

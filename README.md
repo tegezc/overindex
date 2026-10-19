@@ -6,7 +6,7 @@ overindex turns a podcast name into a **Sponsor Report**: the brands its audienc
 
 ## Status
 
-Scaffold only. Qloo integration, report pipeline, UI, and evaluation are not built yet. No evaluation numbers exist yet.
+QlooGateway is in place (MCP client, `qloo api` insights runner, fake client, budget, trace, cache). Report pipeline, UI, and evaluation are not built yet. No evaluation numbers exist yet.
 
 ## Requirements
 
@@ -37,6 +37,7 @@ Health check: `GET /api/health`.
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript, no emit |
 | `npm test` | Unit tests (Vitest) |
+| `npm run qloo:smoke` | Live `qloo_capabilities` plus one `describe`. Prints status only |
 
 ## Data handling
 
