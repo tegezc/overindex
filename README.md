@@ -30,14 +30,11 @@ Health check: `GET /api/health`.
 
 ## Deploy
 
-Production is one always-on Fly Machine (`fly.toml`: `auto_stop_machines = "off"`, volume `overindex_data` at `/data`). The image sets the harness base URL to `https://hackathon.api.qloo.com` for the non-root user. API keys are not in the image.
+Production target (decision 2026-10-20): one always-on Compute Engine `e2-micro` in `us-central1`, `us-east1`, or `us-west1`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No HTTPS load balancer. The VM is not created yet, and there is no public URL.
 
-Set secrets yourself, in your own terminal. Do not paste the values into chat:
+`fly.toml` is left over from the previous host. Do not use it to deploy.
 
-```bash
-fly secrets set QLOO_API_KEY="<your key>" OPENAI_API_KEY="<your key>" --app overindex
-fly deploy --ha=false
-```
+The image sets the harness base URL to `https://hackathon.api.qloo.com` for the non-root user. API keys are not in the image. Set `QLOO_API_KEY` and `OPENAI_API_KEY` on the VM yourself. Do not paste the values into chat.
 
 ## Scripts
 

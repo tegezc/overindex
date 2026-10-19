@@ -1,5 +1,6 @@
-# Always-on skeleton. auto_stop_machines = "off" disables scale-to-zero.
-# QLOO_API_KEY and OPENAI_API_KEY are Fly secrets, not entries in this file.
+# Superseded 2026-10-20. Hosting is Compute Engine e2-micro (docs decision D-025).
+# This file is not the deploy plan. Do not run fly deploy from it.
+# QLOO_API_KEY and OPENAI_API_KEY are not entries in this file.
 
 app = "overindex"
 primary_region = "sin"

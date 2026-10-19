@@ -1,5 +1,5 @@
 #!/bin/sh
-# Fly mounts the cache volume as root. Fix ownership, then run Next.js as app.
+# The cache directory may be mounted as root. Fix ownership, then run Next.js as app.
 set -eu
 export HOME=/home/app
 if [ "$(id -u)" -eq 0 ]; then
