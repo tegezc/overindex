@@ -30,7 +30,7 @@ Health check: `GET /api/health`.
 
 ## Deploy
 
-Production target (D-025): one always-on, non-preemptible Compute Engine `e2-micro` in `us-central1`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No load balancer. The VM is not created yet, and there is no public URL, so this deploy is not done.
+Production target (D-025): one always-on, non-preemptible Compute Engine `e2-micro` in `us-central1-a`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No load balancer. The VM `overindex` exists (project `hackathon-460016`, created 2026-10-20). No container is running, so this deploy is not done.
 
 `fly.toml` is a comment-only remnant of the previous host. It has no app or region. Do not run `fly deploy`.
 
