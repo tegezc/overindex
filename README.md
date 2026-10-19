@@ -28,6 +28,17 @@ Hackathon keys only work against `https://hackathon.api.qloo.com`; the harness d
 
 Health check: `GET /api/health`.
 
+## Deploy
+
+Production is one always-on Fly Machine (`fly.toml`: `auto_stop_machines = "off"`, volume `overindex_data` at `/data`). The image sets the harness base URL to `https://hackathon.api.qloo.com` for the non-root user. API keys are not in the image.
+
+Set secrets yourself, in your own terminal. Do not paste the values into chat:
+
+```bash
+fly secrets set QLOO_API_KEY="<your key>" OPENAI_API_KEY="<your key>" --app overindex
+fly deploy --ha=false
+```
+
 ## Scripts
 
 | Script | Purpose |

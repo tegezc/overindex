@@ -1,0 +1,12 @@
+.git
+.next
+node_modules
+.env
+.env.*
+.cache
+coverage
+eval
+scripts
+**/*.test.ts
+npm-debug.log*
+*.log
