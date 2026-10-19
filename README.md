@@ -30,11 +30,24 @@ Health check: `GET /api/health`.
 
 ## Deploy
 
-Production target (decision 2026-10-20): one always-on Compute Engine `e2-micro` in `us-central1`, `us-east1`, or `us-west1`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No HTTPS load balancer. The VM is not created yet, and there is no public URL.
+Production target (D-025): one always-on, non-preemptible Compute Engine `e2-micro` in `us-central1`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No load balancer. The VM is not created yet, and there is no public URL, so this deploy is not done.
 
-`fly.toml` is left over from the previous host. Do not use it to deploy.
+`fly.toml` is a comment-only remnant of the previous host. It has no app or region. Do not run `fly deploy`.
 
-The image sets the harness base URL to `https://hackathon.api.qloo.com` for the non-root user. API keys are not in the image. Set `QLOO_API_KEY` and `OPENAI_API_KEY` on the VM yourself. Do not paste the values into chat.
+Build the image on a machine with more than 1 GB of RAM. Do not run `docker build` on the `e2-micro`. The VM only starts an image that already exists, via `deploy/gce/run-container.sh`.
+
+The image uses Node 22 or newer (at least 22.19), `@qloo/qloo-harness@0.1.26`, and a non-root user `app`. At build time that user sets the harness base URL to `https://hackathon.api.qloo.com`.
+
+API keys are not in the image. Outside this repo, create a UTF-8 file with two lines and no quotes:
+
+```
+QLOO_API_KEY=...
+OPENAI_API_KEY=...
+```
+
+Do not print that file, paste it into chat, or pass the values as `gcloud` arguments. Copy it to the VM and install it with `deploy/gce/install-env.sh`, which writes `/etc/overindex.env` mode 600 and prints only `QLOO_API_KEY set` and `OPENAI_API_KEY set`.
+
+Public acceptance, still unmet: `GET /api/health` on the VM's public URL returns `qloo: ready`.
 
 ## Scripts
 

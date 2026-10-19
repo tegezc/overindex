@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:1
-# overindex production image. Secrets are runtime env only; never build args.
+# overindex production image for Compute Engine (D-025).
+# Build on a machine with more than 1 GB RAM. Do not `docker build` on the e2-micro.
+# Secrets are runtime env only; never build args or image layers.
 
 FROM node:22-bookworm-slim AS base
 RUN node -e "const p=process.versions.node.split('.').map(Number); if(!(p[0]>22||(p[0]===22&&p[1]>=19))){console.error('Node '+process.versions.node+' is below 22.19'); process.exit(1)}"
@@ -47,7 +49,7 @@ RUN qloo api config set base-url https://hackathon.api.qloo.com \
  && qloo api config get base-url | grep -F "https://hackathon.api.qloo.com" \
  && chmod 700 /home/app/.qloo
 
-# Root only long enough for the entrypoint to chown the Fly volume, then drop to app.
+# Root only long enough to chown the boot-disk bind mount (/data), then drop to app.
 USER root
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["node", "server.js"]
