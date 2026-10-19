@@ -45,7 +45,7 @@ QLOO_API_KEY=...
 OPENAI_API_KEY=...
 ```
 
-Do not print that file, paste it into chat, or pass the values as `gcloud` arguments. Copy it to the VM and install it with `deploy/gce/install-env.sh`, which writes `/etc/overindex.env` mode 600 and prints only `QLOO_API_KEY set` and `OPENAI_API_KEY set`.
+Do not print that file, paste it into chat, or pass the values as `gcloud` arguments. Copy it to the VM and install it with `deploy/gce/install-env.sh`, which writes `/etc/overindex.env` mode 600 and prints only `QLOO_API_KEY set` and `OPENAI_API_KEY set`. On 2026-10-20 that script reported both names set. The values are not in this repo.
 
 Public acceptance, still unmet: `GET /api/health` on the VM's public URL returns `qloo: ready`.
 
