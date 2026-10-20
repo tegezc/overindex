@@ -21,7 +21,11 @@ type ExecFail = NodeJS.ErrnoException & {
  * `qloo_rank` is not a command this runner can issue.
  */
 export class QlooApiRunner {
-  constructor(private readonly timeoutMs = 20_000) {}
+  /**
+   * Spawn plus upstream exceeded 20s once in the spike (26s wall).
+   * MCP calls stay at 20s. This limit is only for `qloo api insights`.
+   */
+  constructor(private readonly timeoutMs = 45_000) {}
 
   async scoreCandidates(input: ScoreCandidatesInput): Promise<InsightsResult> {
     const args = scoreCandidatesInputSchema.parse(input);

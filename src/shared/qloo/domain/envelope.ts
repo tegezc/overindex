@@ -65,6 +65,7 @@ export const insightEntitySchema = z.looseObject({
   name: z.string().optional(),
   entity_id: z.string().optional(),
   popularity: z.number().optional(),
+  tags: z.unknown().optional(),
   query: z
     .looseObject({
       affinity: z.number().optional(),

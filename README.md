@@ -6,7 +6,7 @@ overindex turns a podcast name into a **Sponsor Report**: the brands its audienc
 
 ## Status
 
-QlooGateway is in place. LlmGateway calls the OpenAI Responses API. Show resolve, the Confirm screen, and the audience taste card are in place (`POST /api/resolve`, `POST /api/profile`). Unit tests use `FakeQloo` and `FakeLlm`. Sponsor discovery, the full report, and evaluation are not built yet. No evaluation numbers exist yet.
+QlooGateway is in place. LlmGateway calls the OpenAI Responses API. Sponsor discovery (`npm run report:cli`) builds a candidate table with lane and quadrant. The audience taste card is on the Confirm screen. The full report UI and evaluation are not built yet. No evaluation numbers exist yet.
 
 ## Requirements
 
@@ -62,10 +62,11 @@ Public acceptance for this skeleton, met 2026-10-20: `GET /api/health` returned 
 | `npm test` | Unit tests (Vitest) |
 | `npm run qloo:smoke` | Live `qloo_capabilities` plus one `describe`. Prints status only |
 | `npm run llm:baseline -- "<show>" "<description>"` | Live `llm_baseline`. Prints 40 schema-valid brands. Requires `OPENAI_API_KEY` in the process environment |
+| `npm run report:cli -- "<show>"` | Live sponsor shortlist. Prints lane and quadrant. Optional `--sponsors` and `--exclude`. At most `QLOO_BUDGET_CAP` Qloo calls |
 
 ## Data handling
 
-Qloo API responses are never committed to this repository. Runtime caches live in `CACHE_DIR`, outside the repo or git-ignored. The baseline script prints the parsed brand list and does not write the raw model response into this repository.
+Qloo API responses are never committed to this repository. Runtime caches live in `CACHE_DIR`, outside the repo or git-ignored. `report:cli` prints the shortlist to the terminal and does not write brand names or Qloo bodies into the repository.
 
 ## License
 

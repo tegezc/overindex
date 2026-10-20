@@ -284,3 +284,11 @@ export function getSharedMcpClient(): McpQlooClient {
   globals[sharedKey].client ??= new McpQlooClient();
   return globals[sharedKey].client;
 }
+
+export async function closeSharedMcpClient(): Promise<void> {
+  const globals = globalThis as typeof globalThis & { [sharedKey]?: SharedSlot };
+  const client = globals[sharedKey]?.client;
+  if (!client) return;
+  globals[sharedKey]!.client = undefined;
+  await client.close();
+}
