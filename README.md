@@ -12,7 +12,7 @@ QlooGateway is in place. LlmGateway calls the OpenAI Responses API. Sponsor disc
 
 The report page has a print view: taste card, the five highest-fit brands, and a short method note. The Method page describes the protocol and the limits. Its results line says `results pending`. No evaluation number is filled in.
 
-Evaluation is not built yet. No evaluation numbers exist yet.
+The eval harness checks the stored split and computes rankings, metrics, and bootstrap intervals from data the caller supplies. It does not call Qloo or OpenAI. No dev run has been recorded. No evaluation number is published. The Method page still says `results pending`.
 
 ## Requirements
 
