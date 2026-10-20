@@ -123,6 +123,56 @@ export function publishedResultsDir(): string {
   return PUBLISHED_RESULTS_DIR;
 }
 
+export type Q2Paired = {
+  specificityOverindexMinusLlm: MetricSummary;
+  recallOverindexMinusLlm: MetricSummary;
+};
+
+/** Paired mean of L-OI − L-LLM on the rows given, in show-id order. */
+export function q2Paired(rows: readonly Q2ShowMetrics[], options: BootstrapOptions = {}): Q2Paired {
+  const ordered = [...rows].sort((left, right) => (left.showId < right.showId ? -1 : left.showId > right.showId ? 1 : 0));
+  if (ordered.length === 0) throw new RangeError("q2Paired needs at least one measured show");
+  const contrast = (left: readonly number[], right: readonly number[]) =>
+    withCount(bootstrapPairedMeanCi(left, right, options), ordered.length);
+  return {
+    specificityOverindexMinusLlm: contrast(
+      ordered.map((row) => row.specificityOverindex),
+      ordered.map((row) => row.specificityLlm),
+    ),
+    recallOverindexMinusLlm: contrast(
+      ordered.map((row) => row.recallOverindex),
+      ordered.map((row) => row.recallLlm),
+    ),
+  };
+}
+
+const DEV_RESULT_FILES = new Set(["q1.json", "q2.json", "tuning.json"]);
+
+/**
+ * Writes a test-split aggregate under a name that is not a dev result file.
+ * `q1.json`, `q2.json`, and `tuning.json` are refused so a test run cannot replace them.
+ */
+export function writeTestAggregate<T extends { synthetic: boolean; split: Split }>(
+  report: T,
+  directory: string,
+  fileName: string,
+): string {
+  if (report.synthetic && isInsidePublishedResults(directory)) {
+    throw new Error("Synthetic aggregate scores cannot be written to eval/results");
+  }
+  if (report.split !== "test") throw new Error("writeTestAggregate only writes the test split");
+  if (fileName !== path.basename(fileName) || DEV_RESULT_FILES.has(fileName)) {
+    throw new Error("dev result files stay untouched");
+  }
+  if (!/^q[12]-test\.json$|^test-run\.json$/.test(fileName)) {
+    throw new Error("test aggregate file name is not allowed");
+  }
+  mkdirSync(directory, { recursive: true });
+  const filePath = path.join(directory, fileName);
+  writeFileSync(filePath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
+  return filePath;
+}
+
 function methodBlock(rows: readonly Q1ShowResult[], options: BootstrapOptions): MethodMetrics {
   const block = {} as MethodMetrics;
   for (const method of METHOD_IDS) {

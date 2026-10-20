@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { METHOD_KIT_NOTE, METHOD_RESULTS, METHOD_RESULTS_NOTE } from "./method-copy";
+import { METHOD_KIT_NOTE, METHOD_LIMITATIONS, METHOD_PROTOCOL } from "./method-copy";
 
-describe("method copy before evaluation", () => {
-  it("says results are pending and does not invent a figure", () => {
-    expect(METHOD_RESULTS).toBe("results pending");
-    expect(METHOD_RESULTS).not.toMatch(/\d/);
-    expect(METHOD_RESULTS_NOTE).not.toMatch(/\d/);
-    expect(METHOD_KIT_NOTE).toContain("results pending");
+describe("method copy after the test split", () => {
+  it("points the print note at the Method page and does not say the results are still pending", () => {
+    expect(METHOD_KIT_NOTE).toContain("Method page");
+    expect(METHOD_KIT_NOTE).not.toContain("results pending");
     expect(METHOD_KIT_NOTE).not.toMatch(/\d/);
+    expect(METHOD_PROTOCOL.join(" ")).not.toContain("The numbers are not");
+    expect(METHOD_LIMITATIONS.join(" ")).toContain("split by show size");
   });
 });

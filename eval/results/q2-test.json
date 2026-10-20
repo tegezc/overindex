@@ -1,0 +1,506 @@
+{
+  "synthetic": false,
+  "kind": "q2",
+  "split": "test",
+  "measured": 15,
+  "specificityOverindex": {
+    "mean": 0.019123980238531322,
+    "low": 0.010145260951762498,
+    "high": 0.02911863207064445,
+    "resamples": 10000,
+    "seed": 20261017,
+    "n": 15
+  },
+  "specificityLlm": {
+    "mean": 0.02855011941841919,
+    "low": 0.017650022334717946,
+    "high": 0.039998904160922104,
+    "resamples": 10000,
+    "seed": 20261017,
+    "n": 15
+  },
+  "genericOverindex": {
+    "mean": 0.010000000000000002,
+    "low": 0,
+    "high": 0.02666666666666667,
+    "resamples": 10000,
+    "seed": 20261017,
+    "n": 15
+  },
+  "genericLlm": {
+    "mean": 0.10666666666666667,
+    "low": 0.06333333333333332,
+    "high": 0.15333333333333332,
+    "resamples": 10000,
+    "seed": 20261017,
+    "n": 15
+  },
+  "recallOverindex": {
+    "mean": 0.01111111111111111,
+    "low": 0,
+    "high": 0.03333333333333333,
+    "resamples": 10000,
+    "seed": 20261017,
+    "n": 15
+  },
+  "recallLlm": {
+    "mean": 0.11753246753246753,
+    "low": 0.04047619047619047,
+    "high": 0.227928391053391,
+    "resamples": 10000,
+    "seed": 20261017,
+    "n": 15
+  },
+  "hitOverindex": {
+    "mean": 0.06666666666666667,
+    "low": 0,
+    "high": 0.2,
+    "resamples": 10000,
+    "seed": 20261017,
+    "n": 15
+  },
+  "hitLlm": {
+    "mean": 0.5333333333333333,
+    "low": 0.26666666666666666,
+    "high": 0.8,
+    "resamples": 10000,
+    "seed": 20261017,
+    "n": 15
+  },
+  "llmCoverage": {
+    "mean": 0.6266666666666666,
+    "low": 0.5333333333333334,
+    "high": 0.7033333333333335,
+    "resamples": 10000,
+    "seed": 20261017,
+    "n": 15
+  },
+  "collected": 15,
+  "strata": {
+    "besar": {
+      "synthetic": false,
+      "kind": "q2",
+      "split": "test",
+      "measured": 6,
+      "specificityOverindex": {
+        "mean": 0.017402480560375296,
+        "low": 0.002506265664160401,
+        "high": 0.032941327678169784,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      },
+      "specificityLlm": {
+        "mean": 0.040753505842639974,
+        "low": 0.023762262180889393,
+        "high": 0.057551003539967886,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      },
+      "genericOverindex": {
+        "mean": 0.016666666666666666,
+        "low": 0,
+        "high": 0.05000000000000001,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      },
+      "genericLlm": {
+        "mean": 0.14166666666666666,
+        "low": 0.06666666666666667,
+        "high": 0.21666666666666667,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      },
+      "recallOverindex": {
+        "mean": 0.027777777777777776,
+        "low": 0,
+        "high": 0.08333333333333333,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      },
+      "recallLlm": {
+        "mean": 0.24025974025974026,
+        "low": 0.08748196248196248,
+        "high": 0.4545454545454546,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      },
+      "hitOverindex": {
+        "mean": 0.16666666666666666,
+        "low": 0,
+        "high": 0.5,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      },
+      "hitLlm": {
+        "mean": 0.8333333333333334,
+        "low": 0.5,
+        "high": 1,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      },
+      "llmCoverage": {
+        "mean": 0.7374999999999999,
+        "low": 0.6708333333333333,
+        "high": 0.7916666666666666,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      }
+    },
+    "mid": {
+      "synthetic": false,
+      "kind": "q2",
+      "split": "test",
+      "measured": 9,
+      "specificityOverindex": {
+        "mean": 0.020271646690635338,
+        "low": 0.009615243283973934,
+        "high": 0.03287216454141119,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      },
+      "specificityLlm": {
+        "mean": 0.02041452846893869,
+        "low": 0.009166593126492876,
+        "high": 0.03373320847853955,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      },
+      "genericOverindex": {
+        "mean": 0.005555555555555556,
+        "low": 0,
+        "high": 0.01666666666666667,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      },
+      "genericLlm": {
+        "mean": 0.08333333333333333,
+        "low": 0.03333333333333334,
+        "high": 0.1388888888888889,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      },
+      "recallOverindex": {
+        "mean": 0,
+        "low": 0,
+        "high": 0,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      },
+      "recallLlm": {
+        "mean": 0.03571428571428571,
+        "low": 0,
+        "high": 0.07837301587301587,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      },
+      "hitOverindex": {
+        "mean": 0,
+        "low": 0,
+        "high": 0,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      },
+      "hitLlm": {
+        "mean": 0.3333333333333333,
+        "low": 0,
+        "high": 0.6666666666666666,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      },
+      "llmCoverage": {
+        "mean": 0.5527777777777777,
+        "low": 0.4305555555555556,
+        "high": 0.6527777777777777,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      }
+    }
+  },
+  "paired": {
+    "specificityOverindexMinusLlm": {
+      "mean": -0.009426139179887879,
+      "low": -0.022345108948806286,
+      "high": 0.004794477349721587,
+      "resamples": 10000,
+      "seed": 20261017,
+      "n": 15
+    },
+    "recallOverindexMinusLlm": {
+      "mean": -0.10642135642135643,
+      "low": -0.21931998556998555,
+      "high": -0.02546897546897547,
+      "resamples": 10000,
+      "seed": 20261017,
+      "n": 15
+    }
+  },
+  "pairedStrata": {
+    "besar": {
+      "specificityOverindexMinusLlm": {
+        "mean": -0.023351025282264667,
+        "low": -0.03548404705329274,
+        "high": -0.012240679209512583,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      },
+      "recallOverindexMinusLlm": {
+        "mean": -0.2124819624819625,
+        "low": -0.4406565656565657,
+        "high": -0.03409090909090909,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 6
+      }
+    },
+    "mid": {
+      "specificityOverindexMinusLlm": {
+        "mean": -0.00014288177830335097,
+        "low": -0.01841930449254321,
+        "high": 0.019383110177993445,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      },
+      "recallOverindexMinusLlm": {
+        "mean": -0.03571428571428571,
+        "low": -0.07837301587301587,
+        "high": 0,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 9
+      }
+    }
+  },
+  "secondary": {
+    "measured": 15,
+    "collected": 15,
+    "skipped": 5,
+    "specificityOverindex": {
+      "mean": 0.019123980238531322,
+      "low": 0.010145260951762498,
+      "high": 0.02911863207064445,
+      "resamples": 10000,
+      "seed": 20261017,
+      "n": 15
+    },
+    "specificityLlm": {
+      "mean": 0.023973072679016032,
+      "low": 0.01583914994795136,
+      "high": 0.032385267421679444,
+      "resamples": 10000,
+      "seed": 20261017,
+      "n": 15
+    },
+    "recallOverindex": {
+      "mean": 0,
+      "low": 0,
+      "high": 0,
+      "resamples": 10000,
+      "seed": 20261017,
+      "n": 15
+    },
+    "recallLlm": {
+      "mean": 0,
+      "low": 0,
+      "high": 0,
+      "resamples": 10000,
+      "seed": 20261017,
+      "n": 15
+    },
+    "hitOverindex": {
+      "mean": 0,
+      "low": 0,
+      "high": 0,
+      "resamples": 10000,
+      "seed": 20261017,
+      "n": 15
+    },
+    "hitLlm": {
+      "mean": 0,
+      "low": 0,
+      "high": 0,
+      "resamples": 10000,
+      "seed": 20261017,
+      "n": 15
+    },
+    "strata": {
+      "besar": {
+        "measured": 6,
+        "specificityOverindex": {
+          "mean": 0.017402480560375296,
+          "low": 0.002506265664160401,
+          "high": 0.032941327678169784,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 6
+        },
+        "specificityLlm": {
+          "mean": 0.03476982205878483,
+          "low": 0.02056825449358506,
+          "high": 0.047510747585668596,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 6
+        },
+        "recallOverindex": {
+          "mean": 0,
+          "low": 0,
+          "high": 0,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 6
+        },
+        "recallLlm": {
+          "mean": 0,
+          "low": 0,
+          "high": 0,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 6
+        },
+        "hitOverindex": {
+          "mean": 0,
+          "low": 0,
+          "high": 0,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 6
+        },
+        "hitLlm": {
+          "mean": 0,
+          "low": 0,
+          "high": 0,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 6
+        }
+      },
+      "mid": {
+        "measured": 9,
+        "specificityOverindex": {
+          "mean": 0.020271646690635338,
+          "low": 0.009615243283973934,
+          "high": 0.03287216454141119,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 9
+        },
+        "specificityLlm": {
+          "mean": 0.016775239759170175,
+          "low": 0.009079640658588028,
+          "high": 0.024630538873867784,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 9
+        },
+        "recallOverindex": {
+          "mean": 0,
+          "low": 0,
+          "high": 0,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 9
+        },
+        "recallLlm": {
+          "mean": 0,
+          "low": 0,
+          "high": 0,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 9
+        },
+        "hitOverindex": {
+          "mean": 0,
+          "low": 0,
+          "high": 0,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 9
+        },
+        "hitLlm": {
+          "mean": 0,
+          "low": 0,
+          "high": 0,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 9
+        }
+      }
+    },
+    "paired": {
+      "specificityOverindexMinusLlm": {
+        "mean": -0.004849092440484714,
+        "low": -0.015396266739988621,
+        "high": 0.007356905713957058,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 15
+      },
+      "recallOverindexMinusLlm": {
+        "mean": 0,
+        "low": 0,
+        "high": 0,
+        "resamples": 10000,
+        "seed": 20261017,
+        "n": 15
+      }
+    },
+    "pairedStrata": {
+      "besar": {
+        "specificityOverindexMinusLlm": {
+          "mean": -0.017367341498409534,
+          "low": -0.028753341028959083,
+          "high": -0.006263984640961568,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 6
+        },
+        "recallOverindexMinusLlm": {
+          "mean": 0,
+          "low": 0,
+          "high": 0,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 6
+        }
+      },
+      "mid": {
+        "specificityOverindexMinusLlm": {
+          "mean": 0.0034964069314651646,
+          "low": -0.009966073293509528,
+          "high": 0.019895852226679264,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 9
+        },
+        "recallOverindexMinusLlm": {
+          "mean": 0,
+          "low": 0,
+          "high": 0,
+          "resamples": 10000,
+          "seed": 20261017,
+          "n": 9
+        }
+      }
+    }
+  }
+}

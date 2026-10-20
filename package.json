@@ -17,6 +17,7 @@
     "llm:baseline": "tsx scripts/llm-baseline.ts",
     "report:cli": "tsx scripts/report-cli.ts",
     "eval:dev": "tsx scripts/eval-dev.ts",
+    "eval:test": "tsx scripts/eval-test.ts",
     "featured:generate": "tsx scripts/generate-featured.ts"
   },
   "dependencies": {

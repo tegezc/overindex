@@ -11,7 +11,7 @@ import { chooseTunedValue, REDUCED_DEV_COUNTS } from "./protocol";
 import { renderQ1Prompt } from "./prompts";
 import { candidateSet, scoreQ1Split, type Q1ShowResult } from "./q1";
 import { llmBrandsOutsideLaneA, mostFrequentBrands, scoreQ2Split } from "./q2";
-import { publishedResultsDir, summarizeQ1, summarizeQ2, writeAggregateReport } from "./results";
+import { publishedResultsDir, q2Paired, summarizeQ1, summarizeQ2, writeAggregateReport, writeTestAggregate } from "./results";
 import { assignSplit, splitMismatches, tierShuffle } from "./split";
 
 /**
@@ -344,6 +344,9 @@ describe("Q2 metrics", () => {
     expect(summary.specificityOverindex.mean).toBeCloseTo(1 / 3);
     expect(summary.recallOverindex.mean).toBeCloseTo(0.5);
     expect(summary.measured).toBe(2);
+    const paired = q2Paired(scored, { resamples: 8, seed: 20261017 });
+    expect(paired.specificityOverindexMinusLlm.mean).toBeCloseTo(0);
+    expect(paired.recallOverindexMinusLlm.n).toBe(2);
   });
 });
 
@@ -365,12 +368,12 @@ describe("aggregate scores", () => {
     expect(summary.synthetic).toBe(true);
   });
 
-  it("writes synthetic scores outside eval/results and leaves that directory absent", () => {
+  it("writes synthetic scores outside eval/results and does not replace published files", () => {
     const summary = summarizeQ1([south, north], { synthetic: true, split: "dev", excluded: 0 }, { resamples: 4, seed: 20261017 });
     const published = publishedResultsDir();
-    expect(existsSync(published)).toBe(false);
+    const before = existsSync(join(published, "q1.json")) ? readFileSync(join(published, "q1.json"), "utf8") : null;
     expect(() => writeAggregateReport(summary, published)).toThrow(/Synthetic aggregate scores/);
-    expect(existsSync(published)).toBe(false);
+    if (before !== null) expect(readFileSync(join(published, "q1.json"), "utf8")).toBe(before);
 
     const directory = mkdtempSync(join(tmpdir(), "overindex-eval-"));
     try {
@@ -383,7 +386,22 @@ describe("aggregate scores", () => {
       rmSync(directory, { recursive: true, force: true });
     }
     expect(existsSync(directory)).toBe(false);
-    expect(existsSync(published)).toBe(false);
+    if (before !== null) expect(readFileSync(join(published, "q1.json"), "utf8")).toBe(before);
+  });
+
+  it("writes a test aggregate under a separate name and refuses the dev file names", () => {
+    const summary = summarizeQ1([{ ...north, split: "test" }], { synthetic: false, split: "test", excluded: 0 }, { resamples: 4, seed: 20261017 });
+    const directory = mkdtempSync(join(tmpdir(), "overindex-eval-test-"));
+    try {
+      expect(() => writeTestAggregate(summary, directory, "q1.json")).toThrow(/untouched/);
+      expect(() => writeTestAggregate(summary, directory, "q2.json")).toThrow(/untouched/);
+      expect(() => writeTestAggregate(summary, directory, "tuning.json")).toThrow(/untouched/);
+      expect(() => writeTestAggregate({ ...summary, split: "dev" }, directory, "q1-test.json")).toThrow(/test split/);
+      const written = writeTestAggregate(summary, directory, "q1-test.json");
+      expect(JSON.parse(readFileSync(written, "utf8")).split).toBe("test");
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
   });
 });
 

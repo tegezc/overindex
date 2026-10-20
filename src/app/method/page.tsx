@@ -1,24 +1,18 @@
 import { BASELINE_BASKET } from "@/features/sponsor-discovery/domain/basket";
-import {
-  METHOD_LIMITATIONS,
-  METHOD_PROTOCOL,
-  METHOD_READING,
-  METHOD_RESULTS,
-  METHOD_RESULTS_NOTE,
-} from "@/features/report/presentation/method-copy";
+import { METHOD_LIMITATIONS, METHOD_PROTOCOL, METHOD_READING } from "@/features/report/presentation/method-copy";
 import { QUADRANT_FIT_THRESHOLD, SCORING_VERSION } from "@/shared/config/scoring";
+import MethodResults from "./method-results";
 
 export default function MethodPage() {
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-16">
+    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-8 px-6 py-16">
       <div className="flex flex-col gap-3">
         <h1 className="text-3xl font-semibold tracking-tight">Method and limitations</h1>
-        <p className="text-sm opacity-80">How a sponsor report is built, how to read a score, and what this page will not claim yet.</p>
+        <p className="text-sm opacity-80">How a sponsor report is built, how to read a score, and what the test split did not establish.</p>
       </div>
       <section className="flex flex-col gap-2" data-testid="method-results">
         <h2 className="text-xl font-semibold">Results</h2>
-        <p className="text-lg font-medium">{METHOD_RESULTS}</p>
-        <p className="text-sm">{METHOD_RESULTS_NOTE}</p>
+        <MethodResults />
       </section>
       <section className="flex flex-col gap-2">
         <h2 className="text-xl font-semibold">Protocol</h2>
