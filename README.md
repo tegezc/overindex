@@ -6,7 +6,7 @@ overindex turns a podcast name into a **Sponsor Report**: the brands its audienc
 
 ## Status
 
-QlooGateway is in place (MCP client, `qloo api` insights runner, fake client, budget, trace, cache). Report pipeline, UI, and evaluation are not built yet. No evaluation numbers exist yet.
+QlooGateway is in place (MCP client, `qloo api` insights runner, fake client, budget, trace, cache). LlmGateway calls the OpenAI Responses API with zod structured output. The client defaults to `gpt-6.1-sol` and reasoning effort `medium`. `npm run llm:baseline` always sends those two values. Unit tests use `FakeLlm` and do not call OpenAI. Report pipeline, UI, and evaluation are not built yet. No evaluation numbers exist yet.
 
 ## Requirements
 
@@ -59,10 +59,11 @@ Public acceptance for this skeleton, met 2026-10-20: `GET /api/health` returned 
 | `npm run typecheck` | TypeScript, no emit |
 | `npm test` | Unit tests (Vitest) |
 | `npm run qloo:smoke` | Live `qloo_capabilities` plus one `describe`. Prints status only |
+| `npm run llm:baseline -- "<show>" "<description>"` | Live `llm_baseline`. Prints 40 schema-valid brands. Requires `OPENAI_API_KEY` in the process environment |
 
 ## Data handling
 
-Qloo API responses are never committed to this repository. Runtime caches live in `CACHE_DIR`, outside the repo or git-ignored.
+Qloo API responses are never committed to this repository. Runtime caches live in `CACHE_DIR`, outside the repo or git-ignored. The baseline script prints the parsed brand list and does not write the raw model response into this repository.
 
 ## License
 
