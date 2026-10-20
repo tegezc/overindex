@@ -6,7 +6,7 @@ overindex turns a podcast name into a **Sponsor Report**: the brands its audienc
 
 ## Status
 
-QlooGateway is in place (MCP client, `qloo api` insights runner, fake client, budget, trace, cache). LlmGateway calls the OpenAI Responses API with zod structured output. The client defaults to `gpt-6.1-sol` and reasoning effort `medium`. `npm run llm:baseline` always sends those two values. Unit tests use `FakeLlm` and do not call OpenAI. Report pipeline, UI, and evaluation are not built yet. No evaluation numbers exist yet.
+QlooGateway is in place. LlmGateway calls the OpenAI Responses API. Show resolve, the Confirm screen, and the audience taste card are in place (`POST /api/resolve`, `POST /api/profile`). Unit tests use `FakeQloo` and `FakeLlm`. Sponsor discovery, the full report, and evaluation are not built yet. No evaluation numbers exist yet.
 
 ## Requirements
 
@@ -27,6 +27,8 @@ npm run dev
 Hackathon keys only work against `https://hackathon.api.qloo.com`; the harness defaults to another host, so the `base-url` step is required.
 
 Health check: `GET /api/health`.
+
+Show flow: Home posts nothing until you submit. Confirm calls `POST /api/resolve` with `{ query }`. Confirming a candidate calls `POST /api/profile` with `{ entityId, name }` and renders the taste card. `name` is display-only.
 
 ## Deploy
 

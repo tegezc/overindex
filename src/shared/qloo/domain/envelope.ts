@@ -35,7 +35,9 @@ export function workflowEnvelopeSchema<T extends z.ZodType>(results: T) {
   });
 }
 
-export const describeEnvelopeSchema = workflowEnvelopeSchema(z.array(z.unknown()));
+export const describeEnvelopeSchema = workflowEnvelopeSchema(z.array(z.unknown())).extend({
+  resolution: z.unknown().optional(),
+});
 export const findTagsEnvelopeSchema = workflowEnvelopeSchema(z.array(z.unknown()));
 export const recommendEnvelopeSchema = workflowEnvelopeSchema(z.array(z.unknown()));
 export const demographicsEnvelopeSchema = workflowEnvelopeSchema(z.array(z.unknown()));
