@@ -16,6 +16,7 @@
     "qloo:smoke": "tsx scripts/qloo-smoke.ts",
     "llm:baseline": "tsx scripts/llm-baseline.ts",
     "report:cli": "tsx scripts/report-cli.ts",
+    "eval:dev": "tsx scripts/eval-dev.ts",
     "featured:generate": "tsx scripts/generate-featured.ts"
   },
   "dependencies": {

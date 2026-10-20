@@ -42,7 +42,7 @@ async function verify(): Promise<void> {
   try {
     const result = await execFileAsync(launch.command, qlooArgs(launch, ["api", "config", "get", "base-url"]), {
       encoding: "utf8",
-      timeout: 20_000,
+      timeout: 45_000,
       windowsHide: true,
     });
     stdout = result.stdout;

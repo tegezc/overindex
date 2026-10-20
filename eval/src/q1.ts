@@ -31,7 +31,10 @@ export type Q1Signals = {
   resolvedBrands: ReadonlySet<string>;
   /** Per measured show. A present empty map means every candidate is unscored. */
   affinityByShow: ReadonlyMap<string, ReadonlyMap<string, number>>;
+  /** Shared baseline percentiles. A per-show map overrides this for that show. */
   baselinePercentile: ReadonlyMap<string, number>;
+  /** Percentiles computed inside that show's own candidate set. */
+  baselinePercentileByShow?: ReadonlyMap<string, ReadonlyMap<string, number>>;
   /** Per measured show. Injected model output. This module does not call an LLM. */
   modelRankingByShow: ReadonlyMap<string, readonly string[]>;
   alpha: number;
@@ -80,7 +83,7 @@ export function scoreQ1Split(
       {
         counts,
         affinities: affinityMap,
-        baselinePercentile: signals.baselinePercentile,
+        baselinePercentile: signals.baselinePercentileByShow?.get(show.showId) ?? signals.baselinePercentile,
         alpha: signals.alpha,
         lambda: signals.lambda,
       },

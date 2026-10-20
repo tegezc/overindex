@@ -12,7 +12,7 @@ QlooGateway is in place. LlmGateway calls the OpenAI Responses API. Sponsor disc
 
 The report page has a print view: taste card, the five highest-fit brands, and a short method note. The Method page describes the protocol and the limits. Its results line says `results pending`. No evaluation number is filled in.
 
-The eval harness checks the stored split and computes rankings, metrics, and bootstrap intervals from data the caller supplies. It does not call Qloo or OpenAI. No dev run has been recorded. No evaluation number is published. The Method page still says `results pending`.
+The eval harness checks the stored split and computes rankings, metrics, and bootstrap intervals from data the caller supplies. It does not call Qloo or OpenAI. `npm run eval:dev` records aggregate dev scores under `eval/results/`. That command does not measure the test split. This README does not publish evaluation numbers. The Method page still says `results pending`.
 
 ## Requirements
 
@@ -70,6 +70,7 @@ Public acceptance for this skeleton, met 2026-10-20: `GET /api/health` returned 
 | `npm run llm:baseline -- "<show>" "<description>"` | Live `llm_baseline`. Prints 40 schema-valid brands. Requires `OPENAI_API_KEY` in the process environment |
 | `npm run report:cli -- "<show>"` | Live sponsor shortlist. Prints lane and quadrant. Optional `--sponsors` and `--exclude`. At most `QLOO_BUDGET_CAP` Qloo calls |
 | `npm run featured:generate -- ["Show A" "Show B"]` | Runs the report pipeline and writes each finished report to `CACHE_DIR/featured/<id>.json` with a data date. With no names, uses the working list in the script. Never commit that directory. A fresh server disk needs this script again |
+| `npm run eval:dev` | Live dev-split eval. Writes aggregate scores to `eval/results/`. Requires `OPENAI_API_KEY` in the process environment. Does not measure the test split |
 
 ## Data handling
 

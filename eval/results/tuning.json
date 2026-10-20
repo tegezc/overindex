@@ -1,0 +1,188 @@
+{
+  "split": "dev",
+  "testSplitMeasured": false,
+  "finishedAt": "2026-10-21 00:02 WIB",
+  "alpha": 1,
+  "lambda": 0,
+  "promptVariant": "A.1a",
+  "promptTie": false,
+  "promptNdcgAt10": {
+    "A.1a": 0.6535886992353702,
+    "A.1b": 0.6381787578104628
+  },
+  "baselineLift": "basket-8",
+  "baselineOptionsScored": 1,
+  "basketSignals": 6,
+  "quadrantThreshold": null,
+  "configurationLocked": false,
+  "grid": [
+    {
+      "alpha": 0,
+      "lambda": 0,
+      "ndcgAt10": 0.6904648767857288
+    },
+    {
+      "alpha": 0,
+      "lambda": 0.25,
+      "ndcgAt10": 0.6621780785943642
+    },
+    {
+      "alpha": 0,
+      "lambda": 0.5,
+      "ndcgAt10": 0.6115986575892965
+    },
+    {
+      "alpha": 0,
+      "lambda": 0.75,
+      "ndcgAt10": 0.5044456402014998
+    },
+    {
+      "alpha": 0,
+      "lambda": 1,
+      "ndcgAt10": 0.46377852845237083
+    },
+    {
+      "alpha": 0.25,
+      "lambda": 0,
+      "ndcgAt10": 0.6904648767857288
+    },
+    {
+      "alpha": 0.25,
+      "lambda": 0.25,
+      "ndcgAt10": 0.6731340163040771
+    },
+    {
+      "alpha": 0.25,
+      "lambda": 0.5,
+      "ndcgAt10": 0.5942677971076449
+    },
+    {
+      "alpha": 0.25,
+      "lambda": 0.75,
+      "ndcgAt10": 0.48884295162544783
+    },
+    {
+      "alpha": 0.25,
+      "lambda": 1,
+      "ndcgAt10": 0.4453457088416664
+    },
+    {
+      "alpha": 0.5,
+      "lambda": 0,
+      "ndcgAt10": 0.6904648767857288
+    },
+    {
+      "alpha": 0.5,
+      "lambda": 0.25,
+      "ndcgAt10": 0.6294456402014998
+    },
+    {
+      "alpha": 0.5,
+      "lambda": 0.5,
+      "ndcgAt10": 0.5459326701387285
+    },
+    {
+      "alpha": 0.5,
+      "lambda": 0.75,
+      "ndcgAt10": 0.4273614502338563
+    },
+    {
+      "alpha": 0.5,
+      "lambda": 1,
+      "ndcgAt10": 0.3903884674895062
+    },
+    {
+      "alpha": 0.75,
+      "lambda": 0,
+      "ndcgAt10": 0.6904648767857288
+    },
+    {
+      "alpha": 0.75,
+      "lambda": 0.25,
+      "ndcgAt10": 0.6404015779112127
+    },
+    {
+      "alpha": 0.75,
+      "lambda": 0.5,
+      "ndcgAt10": 0.4784031360462864
+    },
+    {
+      "alpha": 0.75,
+      "lambda": 0.75,
+      "ndcgAt10": 0.4129824427514027
+    },
+    {
+      "alpha": 0.75,
+      "lambda": 1,
+      "ndcgAt10": 0.38696372174389554
+    },
+    {
+      "alpha": 1,
+      "lambda": 0,
+      "ndcgAt10": 0.6904648767857288
+    },
+    {
+      "alpha": 1,
+      "lambda": 0.25,
+      "ndcgAt10": 0.6294456402014998
+    },
+    {
+      "alpha": 1,
+      "lambda": 0.5,
+      "ndcgAt10": 0.5111355744391508
+    },
+    {
+      "alpha": 1,
+      "lambda": 0.75,
+      "ndcgAt10": 0.4174495568883039
+    },
+    {
+      "alpha": 1,
+      "lambda": 1,
+      "ndcgAt10": 0.38696372174389554
+    }
+  ],
+  "measuredQ1": 4,
+  "excludedQ1": 6,
+  "measuredQ2": 7,
+  "q2Skipped": 3,
+  "measuredQ1ShowIds": [
+    "fighter-and-the-kid",
+    "kinda-funny",
+    "pillow-talks",
+    "theo-von"
+  ],
+  "measuredQ2ShowIds": [
+    "fighter-and-the-kid",
+    "gamertag-radio",
+    "kinda-funny",
+    "my-favorite-murder",
+    "pillow-talks",
+    "rest-is-history",
+    "theo-von"
+  ],
+  "showResolution": {
+    "attempted": 10,
+    "resolved": 7,
+    "notConfident": 3,
+    "nameMismatch": 0,
+    "empty": 0,
+    "error": 0
+  },
+  "brandResolution": {
+    "attempted": 176,
+    "resolved": 13
+  },
+  "shortCandidateLists": 4,
+  "meanUnscoredM3": 0,
+  "meanUnscoredM4": 0,
+  "showMatch": "qloo-confident-and-name-accepts",
+  "publisherConfirmedByUser": false,
+  "qlooCalls": 209,
+  "openaiCalls": 15,
+  "qlooCacheHitsThisProcess": 440,
+  "tools": {
+    "qloo_describe": 159,
+    "api:insights": 50
+  }
+}

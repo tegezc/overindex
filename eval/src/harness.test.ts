@@ -260,6 +260,22 @@ describe("Q1 scoring", () => {
     expect(result.measured[0]?.metrics.M4.ndcgAt10).toBe(1);
   });
 
+  it("uses a per-show baseline percentile instead of the shared map", () => {
+    const result = scoreQ1Split(shows, sponsors, {
+      resolvedShows: new Set(["dev-one"]),
+      resolvedBrands: new Set(["shared", "only-dev", "only-test", "lonely"]),
+      affinityByShow: new Map([
+        ["dev-one", new Map([["shared", 0.9], ["only-test", 0.2], ["lonely", 0.1]])],
+      ]),
+      baselinePercentile: new Map([["shared", 0.4], ["only-test", 0.4], ["lonely", 0.4]]),
+      baselinePercentileByShow: new Map([["dev-one", new Map()]]),
+      modelRankingByShow: new Map([["dev-one", ["shared"]]]),
+      alpha: 1,
+      lambda: 1,
+    }, "dev");
+    expect(result.measured[0]?.unscoredM4).toBe(3);
+  });
+
   it("refuses to measure the test split before the configuration is locked", () => {
     expect(() => scoreQ1Split(shows, sponsors, {
       resolvedShows: new Set(),
