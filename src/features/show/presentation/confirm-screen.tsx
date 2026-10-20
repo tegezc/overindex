@@ -165,7 +165,7 @@ function ProfileResult({ profile }: { profile: ProfileState }) {
 function BuildReport({ show }: { show: PodcastCandidate }) {
   const router = useRouter();
   const [state, setState] = useState<"idle" | "starting" | "failed">("idle");
-  const [message, setMessage] = useState<string | undefined>();
+  const [failure, setFailure] = useState<{ message: string; code?: string } | undefined>();
   return (
     <div className="flex flex-col gap-2">
       <button
@@ -173,12 +173,21 @@ function BuildReport({ show }: { show: PodcastCandidate }) {
         className="w-fit rounded-md border border-current px-4 py-2 text-sm disabled:opacity-40"
         data-testid="build-report"
         disabled={state === "starting"}
-        onClick={() => void startReport(show, router, setState, setMessage)}
+        onClick={() => void startReport(show, router, setState, setFailure)}
       >
         Build report
       </button>
       {state === "starting" ? <p data-testid="report-starting">Starting report.</p> : null}
-      {state === "failed" ? <p data-testid="report-start-error">{message ?? "The report could not be started."}</p> : null}
+      {state === "failed" ? (
+        <div className="flex flex-col gap-2" data-testid="report-start-error">
+          <p>{failure?.message ?? "The report could not be started."}</p>
+          {failure?.code === "RATE_LIMIT" ? (
+            <Link className="text-sm underline" href="/#featured" data-testid="rate-limit-featured">
+              Open a featured report
+            </Link>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -187,10 +196,10 @@ async function startReport(
   show: PodcastCandidate,
   router: ReturnType<typeof useRouter>,
   setState: (state: "idle" | "starting" | "failed") => void,
-  setMessage: (message: string | undefined) => void,
+  setFailure: (failure: { message: string; code?: string } | undefined) => void,
 ) {
   setState("starting");
-  setMessage(undefined);
+  setFailure(undefined);
   try {
     const response = await fetch("/api/report", {
       method: "POST",
@@ -201,23 +210,25 @@ async function startReport(
     const parsed = reportAcceptedSchema.safeParse(payload);
     if (!response.ok || !parsed.success) {
       setState("failed");
-      setMessage(readStartError(payload));
+      setFailure(readStartError(payload));
       return;
     }
     router.push(`/r/${parsed.data.reportId}`);
   } catch {
     setState("failed");
-    setMessage("The report could not be started.");
+    setFailure({ message: "The report could not be started." });
   }
 }
 
-function readStartError(payload: unknown): string {
-  if (!payload || typeof payload !== "object" || !("error" in payload)) return "The report could not be started.";
-  const error = payload.error;
-  if (!error || typeof error !== "object" || !("message" in error) || typeof error.message !== "string") {
-    return "The report could not be started.";
+function readStartError(payload: unknown): { message: string; code?: string } {
+  if (!payload || typeof payload !== "object" || !("error" in payload)) {
+    return { message: "The report could not be started." };
   }
-  return error.message;
+  const error = payload.error;
+  if (!error || typeof error !== "object") return { message: "The report could not be started." };
+  const message = "message" in error && typeof error.message === "string" ? error.message : "The report could not be started.";
+  const code = "code" in error && typeof error.code === "string" ? error.code : undefined;
+  return { message, ...(code ? { code } : {}) };
 }
 
 async function loadProfile(show: PodcastCandidate, setProfile: (state: ProfileState) => void) {

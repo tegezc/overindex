@@ -15,7 +15,8 @@
     "test": "vitest run",
     "qloo:smoke": "tsx scripts/qloo-smoke.ts",
     "llm:baseline": "tsx scripts/llm-baseline.ts",
-    "report:cli": "tsx scripts/report-cli.ts"
+    "report:cli": "tsx scripts/report-cli.ts",
+    "featured:generate": "tsx scripts/generate-featured.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.1",

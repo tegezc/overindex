@@ -1,7 +1,9 @@
 import { ZodError } from "zod";
+import { clientAddress } from "@/features/report/application/client-address";
 import { createReportServices, startReport } from "@/features/report/application/execute-report";
+import { takeLiveSlot } from "@/features/report/application/live-quota-store";
 import { reportRequestSchema } from "@/features/report/domain/report";
-import { EnvError } from "@/shared/config/env";
+import { EnvError, getEnv } from "@/shared/config/env";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,7 +18,13 @@ export async function POST(request: Request) {
   const parsed = reportRequestSchema.safeParse(body);
   if (!parsed.success) return jsonError("INVALID_INPUT", "input.showQuery is required", 400);
   try {
-    const run = startReport(parsed.data, createReportServices());
+    const env = getEnv();
+    const decision = takeLiveSlot(clientAddress(request), {
+      perIp: env.LIVE_REPORTS_PER_IP_PER_DAY,
+      global: env.LIVE_REPORTS_GLOBAL_PER_DAY,
+    });
+    if (!decision.allowed) return jsonError("RATE_LIMIT", decision.message ?? "Open a featured report instead.", 429);
+    const run = startReport(parsed.data, createReportServices(env));
     return Response.json({ reportId: run.report.id }, { status: 202 });
   } catch (error) {
     if (error instanceof ZodError) return jsonError("INVALID_INPUT", "input.showQuery is required", 400);

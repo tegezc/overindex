@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { BrandCandidate } from "@/features/sponsor-discovery/domain/types";
 import { BrandDrawer } from "@/features/pitch/presentation/brand-drawer";
 import { TasteCardView } from "@/features/show/presentation/taste-card-view";
+import { topBrands } from "../domain/featured";
 import {
   laneBStatus,
   reportSchema,
@@ -14,6 +15,7 @@ import {
   type Section,
   type SectionStatus,
 } from "../domain/report";
+import { METHOD_KIT_NOTE } from "./method-copy";
 import { QuadrantChart } from "./quadrant-chart";
 
 export function ReportScreen({ reportId }: { reportId: string }) {
@@ -157,6 +159,7 @@ export function ReportScreen({ reportId }: { reportId: string }) {
           open={showWithout}
           onToggle={() => setShowWithout((value) => !value)}
         />
+        <MediaKit report={report} />
       </div>
       <TracePanel report={report} />
     </div>
@@ -300,6 +303,64 @@ function WithoutQloo({
           ) : null}
         </div>
       ) : null}
+    </section>
+  );
+}
+
+function MediaKit({ report }: { report: Report }) {
+  const name = report.context.show?.name ?? report.input.showQuery;
+  const brands = topBrands(report.sections.candidates.data ?? []);
+  return (
+    <section className="flex flex-col gap-3" data-testid="media-kit">
+      <div className="no-print flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold">Media kit</h2>
+        <button
+          type="button"
+          className="w-fit rounded-md border border-current px-4 py-2 text-sm"
+          data-testid="print-media-kit"
+          onClick={() => window.print()}
+        >
+          Print media kit
+        </button>
+      </div>
+      <div className="media-kit-sheet flex flex-col gap-4 rounded-md border border-current/15 p-4">
+        <header className="flex flex-col gap-1">
+          <h2 className="text-xl font-semibold" data-testid="media-kit-title">
+            {name}
+          </h2>
+          <p className="text-sm">
+            {report.context.mode}
+            {" · "}
+            data date <span data-testid="media-kit-date">{report.createdAt.slice(0, 10)}</span>
+          </p>
+        </header>
+        {report.sections.tasteCard.note ? <p className="text-sm">{report.sections.tasteCard.note}</p> : null}
+        {report.sections.tasteCard.data ? <TasteCardView card={report.sections.tasteCard.data} /> : <p className="text-sm">No taste card in this report.</p>}
+        <div className="flex flex-col gap-2">
+          <h3 className="text-sm font-semibold">Top brands</h3>
+          {report.sections.candidates.note ? <p className="text-sm">{report.sections.candidates.note}</p> : null}
+          {brands.length === 0 ? (
+            <p className="text-sm">No brands in this report.</p>
+          ) : (
+            <ol className="flex list-decimal flex-col gap-1 pl-5 text-sm" data-testid="media-kit-brands">
+              {brands.map((candidate) => (
+                <li key={candidate.brand.id} data-testid="media-kit-brand">
+                  <span className="font-medium">{candidate.brand.name}</span>
+                  <span className="opacity-70"> · {candidate.quadrant.replace(/_/g, " ")}</span>
+                  {candidate.fit === undefined ? (
+                    <span className="opacity-70"> · no taste signal</span>
+                  ) : (
+                    <span className="opacity-70"> · fit {candidate.fit.toFixed(2)} · Qloo</span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
+        <p className="text-sm" data-testid="media-kit-method">
+          {METHOD_KIT_NOTE}
+        </p>
+      </div>
     </section>
   );
 }
