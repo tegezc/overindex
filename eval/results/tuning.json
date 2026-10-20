@@ -14,7 +14,7 @@
   "baselineOptionsScored": 1,
   "basketSignals": 6,
   "quadrantThreshold": null,
-  "configurationLocked": false,
+  "configurationLocked": true,
   "grid": [
     {
       "alpha": 0,
