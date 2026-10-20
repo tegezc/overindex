@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { BrandCandidate } from "@/features/sponsor-discovery/domain/types";
+import { BrandDrawer } from "@/features/pitch/presentation/brand-drawer";
 import { TasteCardView } from "@/features/show/presentation/taste-card-view";
 import {
   laneBStatus,
@@ -21,6 +22,7 @@ export function ReportScreen({ reportId }: { reportId: string }) {
   const [streamNote, setStreamNote] = useState<string | undefined>();
   const [done, setDone] = useState(false);
   const [showWithout, setShowWithout] = useState(false);
+  const [selectedBrandId, setSelectedBrandId] = useState<string | undefined>();
 
   const reportRef = useRef<Report | undefined>(undefined);
 
@@ -103,6 +105,7 @@ export function ReportScreen({ reportId }: { reportId: string }) {
   const laneStatus = report.sections.candidates.status;
   const laneNote = report.sections.candidates.note;
   const bStatus = laneBStatus(report.context.mode, laneStatus);
+  const selected = candidates.find((candidate) => candidate.brand.id === selectedBrandId);
 
   return (
     <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
@@ -120,14 +123,35 @@ export function ReportScreen({ reportId }: { reportId: string }) {
           {report.sections.tasteCard.data ? <TasteCardView card={report.sections.tasteCard.data} /> : null}
         </section>
         <QuadrantChart status={laneStatus} note={laneNote} candidates={candidates} />
-        <Lane title="Lane A — Ready buyers" testId="section-lane-a" status={laneStatus} note={laneNote} candidates={lanes.laneA} />
+        <Lane
+          title="Lane A — Ready buyers"
+          testId="section-lane-a"
+          status={laneStatus}
+          note={laneNote}
+          candidates={lanes.laneA}
+          canOpen={done}
+          selectedId={selectedBrandId}
+          onOpen={setSelectedBrandId}
+        />
         <Lane
           title="Lane B — Greenfield"
           testId="section-lane-b"
           status={bStatus}
           note={bStatus === "skipped" ? "Lane B is hidden in tags-only mode." : laneNote}
           candidates={bStatus === "skipped" ? [] : lanes.laneB}
+          canOpen={done}
+          selectedId={selectedBrandId}
+          onOpen={setSelectedBrandId}
         />
+        {selected ? (
+          <BrandDrawer
+            key={selected.brand.id}
+            reportId={report.id}
+            brandId={selected.brand.id}
+            brandName={selected.brand.name}
+            onClose={() => setSelectedBrandId(undefined)}
+          />
+        ) : null}
         <WithoutQloo
           section={report.sections.withoutQloo}
           open={showWithout}
@@ -183,12 +207,18 @@ function Lane({
   status,
   note,
   candidates,
+  canOpen,
+  selectedId,
+  onOpen,
 }: {
   title: string;
   testId: string;
   status: SectionStatus;
   note?: string;
   candidates: readonly BrandCandidate[];
+  canOpen: boolean;
+  selectedId?: string;
+  onOpen: (brandId: string) => void;
 }) {
   return (
     <section className="flex flex-col gap-2" data-testid={testId} data-status={status}>
@@ -201,16 +231,30 @@ function Lane({
       ) : null}
       <ul className="flex max-h-80 flex-col gap-2 overflow-auto">
         {candidates.map((candidate) => (
-          <li key={candidate.brand.id} className="rounded-md border border-current/15 px-3 py-2 text-sm">
-            <span className="font-medium">{candidate.brand.name}</span>
-            <span className="opacity-70"> · {candidate.quadrant.replace(/_/g, " ")}</span>
-            {candidate.reachBand ? <span className="opacity-70"> · {candidate.reachBand}</span> : <span className="opacity-70"> · reach unknown</span>}
-            {candidate.fit === undefined ? (
-              <span className="opacity-70"> · no taste signal</span>
-            ) : (
-              <span className="opacity-70"> · fit {candidate.fit.toFixed(2)} · Qloo</span>
-            )}
-            {candidate.flags.renewal ? <span> · renewal</span> : null}
+          <li key={candidate.brand.id}>
+            <button
+              type="button"
+              className="w-full rounded-md border border-current/15 px-3 py-2 text-left text-sm disabled:opacity-50"
+              data-testid="open-brand"
+              data-brand-id={candidate.brand.id}
+              aria-pressed={selectedId === candidate.brand.id}
+              disabled={!canOpen}
+              onClick={() => onOpen(candidate.brand.id)}
+            >
+              <span className="font-medium">{candidate.brand.name}</span>
+              <span className="opacity-70"> · {candidate.quadrant.replace(/_/g, " ")}</span>
+              {candidate.reachBand ? (
+                <span className="opacity-70"> · {candidate.reachBand}</span>
+              ) : (
+                <span className="opacity-70"> · reach unknown</span>
+              )}
+              {candidate.fit === undefined ? (
+                <span className="opacity-70"> · no taste signal</span>
+              ) : (
+                <span className="opacity-70"> · fit {candidate.fit.toFixed(2)} · Qloo</span>
+              )}
+              {candidate.flags.renewal ? <span> · renewal</span> : null}
+            </button>
           </li>
         ))}
       </ul>

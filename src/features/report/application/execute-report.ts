@@ -52,6 +52,8 @@ export type ReportServices = {
 
 export class ReportRun {
   readonly events: ReportStreamEvent[] = [];
+  /** Kept for on-demand brand calls so they share this report's budget and cache. */
+  services?: ReportServices;
   finished = false;
   private readonly listeners = new Set<(event: ReportStreamEvent) => void>();
   private readonly waiters: (() => void)[] = [];
@@ -147,6 +149,7 @@ export function createReportServices(env: Env = getEnv()): ReportServices {
 
 export function startReport(request: ReportRequest, services: ReportServices): ReportRun {
   const run = new ReportRun(emptyReport(request, services.budget.snapshot()));
+  run.services = services;
   getReportBoard().add(run);
   void executeReport(run, services);
   return run;
