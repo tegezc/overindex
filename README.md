@@ -30,7 +30,7 @@ Health check: `GET /api/health`.
 
 ## Deploy
 
-Production target (D-025): one always-on, non-preemptible Compute Engine `e2-micro` in `us-central1-a`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No load balancer. The VM `overindex` exists (project `hackathon-460016`, created 2026-10-20). No container is running, so this deploy is not done.
+Production target (D-025): one always-on, non-preemptible Compute Engine `e2-micro` in `us-central1-a`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No load balancer. The VM `overindex` (project `hackathon-460016`) is running that container. On 2026-10-20, `GET /api/health` on its public HTTP URL returned `qloo: ready`. The external IP is ephemeral.
 
 `fly.toml` is a comment-only remnant of the previous host. It has no app or region. Do not run `fly deploy`.
 
@@ -47,7 +47,7 @@ OPENAI_API_KEY=...
 
 Do not print that file, paste it into chat, or pass the values as `gcloud` arguments. Copy it to the VM and install it with `deploy/gce/install-env.sh`, which writes `/etc/overindex.env` mode 600 and prints only `QLOO_API_KEY set` and `OPENAI_API_KEY set`. On 2026-10-20 that script reported both names set. The values are not in this repo.
 
-Public acceptance, still unmet: `GET /api/health` on the VM's public URL returns `qloo: ready`.
+Public acceptance for this skeleton, met 2026-10-20: `GET /api/health` returned `qloo: ready`.
 
 ## Scripts
 

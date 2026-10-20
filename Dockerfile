@@ -27,11 +27,14 @@ ENV NODE_ENV=production \
     HOME=/home/app \
     CACHE_DIR=/data
 
+# HOME=/home/app makes this global npm install create /home/app as root.
+# useradd then leaves that directory root-owned, so chown it before USER app.
 RUN npm install --global @qloo/qloo-harness@0.1.26 \
  && npm ls --global --depth=0 @qloo/qloo-harness \
  && npm cache clean --force \
  && groupadd --system --gid 1001 nodejs \
  && useradd --system --uid 1001 --gid nodejs --create-home --home-dir /home/app --shell /usr/sbin/nologin app \
+ && chown -R app:nodejs /home/app \
  && mkdir -p /data \
  && chown app:nodejs /data \
  && command -v runuser \
