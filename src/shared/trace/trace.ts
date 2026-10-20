@@ -18,8 +18,16 @@ export type TraceDraft = Omit<TraceEvent, "seq" | "at">;
 export class MemoryTraceSink {
   private seq = 0;
   private readonly items: TraceEvent[] = [];
+  private readonly listeners = new Set<(event: TraceEvent) => void>();
 
   constructor(private readonly now: () => Date = () => new Date()) {}
+
+  subscribe(listener: (event: TraceEvent) => void): () => void {
+    this.listeners.add(listener);
+    return () => {
+      this.listeners.delete(listener);
+    };
+  }
 
   emit(event: TraceDraft): TraceEvent {
     const parsed = traceEventSchema.parse({
@@ -28,6 +36,7 @@ export class MemoryTraceSink {
       at: this.now().toISOString(),
     });
     this.items.push(parsed);
+    for (const listener of this.listeners) listener(parsed);
     return parsed;
   }
 

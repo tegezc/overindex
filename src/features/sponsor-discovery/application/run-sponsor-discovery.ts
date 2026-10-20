@@ -66,7 +66,12 @@ export type SponsorDiscoveryDeps = {
   budget: { used: number; cap: number };
   laneA: LaneACatalog;
   baselineStore: BaselineAffinityStore;
+  onBaseline?: (outcome: BaselineOutcome) => void;
 };
+
+export type BaselineOutcome =
+  | { ok: true; brands: { name: string; category: string }[] }
+  | { ok: false };
 
 type Pool = {
   id: string;
@@ -113,8 +118,14 @@ export async function runSponsorDiscovery(
   const llmPromise = deps
     .llmBaseline({ showName: show.name, showDescription: description })
     .then(
-      (value) => value.brands,
-      () => undefined,
+      (value) => {
+        notifyBaseline(deps, { ok: true, brands: value.brands });
+        return value.brands;
+      },
+      () => {
+        notifyBaseline(deps, { ok: false });
+        return undefined;
+      },
     );
   const discovered = await discoverBrands(show.id, deps.budget, deps.insightsRaw, slack);
   const llmBrands = await llmPromise;
@@ -252,6 +263,14 @@ async function resolveBasket(
 
 function selectNamedSafe(query: string, envelope: DescribeEnvelope): { id: string; name: string } | undefined {
   return selectNamed(query, extractShowCandidates(envelope).candidates);
+}
+
+function notifyBaseline(deps: SponsorDiscoveryDeps, outcome: BaselineOutcome): void {
+  try {
+    deps.onBaseline?.(outcome);
+  } catch {
+    // A listener must not stop scoring.
+  }
 }
 
 function showFailure(status: string): SponsorDiscoveryResult["status"] {

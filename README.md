@@ -6,7 +6,7 @@ overindex turns a podcast name into a **Sponsor Report**: the brands its audienc
 
 ## Status
 
-QlooGateway is in place. LlmGateway calls the OpenAI Responses API. Sponsor discovery (`npm run report:cli`) builds a candidate table with lane and quadrant. The audience taste card is on the Confirm screen. The full report UI and evaluation are not built yet. No evaluation numbers exist yet.
+QlooGateway is in place. LlmGateway calls the OpenAI Responses API. Sponsor discovery (`npm run report:cli`) builds a candidate table with lane and quadrant. Confirm can start a report. The report page streams a taste card, fit quadrant, Lane A, Lane B, a Without Qloo toggle, and a trace panel, with a status on each section. Evaluation is not built yet. No evaluation numbers exist yet.
 
 ## Requirements
 
@@ -28,7 +28,7 @@ Hackathon keys only work against `https://hackathon.api.qloo.com`; the harness d
 
 Health check: `GET /api/health`.
 
-Show flow: Home posts nothing until you submit. Confirm calls `POST /api/resolve` with `{ query }`. Confirming a candidate calls `POST /api/profile` with `{ entityId, name }` and renders the taste card. `name` is display-only.
+Show flow: Home posts nothing until you submit. Confirm calls `POST /api/resolve` with `{ query }`. Confirming a candidate calls `POST /api/profile` with `{ entityId, name }` and renders the taste card. `name` is display-only. Build report calls `POST /api/report` with `{ input: { showQuery }, showId }` and opens `/r/[reportId]`, which reads `GET /api/report/[id]` and the SSE stream at `GET /api/report/[id]/events`.
 
 ## Deploy
 

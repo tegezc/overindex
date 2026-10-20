@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { reportAcceptedSchema } from "@/features/report/domain/report";
 import { resolveResponseSchema, type ResolveResponse } from "../domain/contracts";
 import type { PodcastCandidate } from "../domain/candidates";
 import { tasteCardSchema, type TasteCard } from "../domain/taste-card";
@@ -120,6 +121,7 @@ function ResolveBody({
               <button type="button" className="text-left text-base font-medium" data-testid="candidate-option" onClick={() => onPick(candidate)}>
                 {candidate.name}
               </button>
+              <BuildReport show={candidate} />
               {candidate.description ? <p className="mt-1 text-sm opacity-80">{candidate.description}</p> : null}
             </li>
           ))}
@@ -142,9 +144,12 @@ function ResolveBody({
         </h2>
         {show.description ? <p className="text-sm opacity-80">{show.description}</p> : null}
       </section>
-      <button type="button" className="w-fit rounded-md border border-current px-4 py-2 text-sm" data-testid="confirm-show" onClick={() => onPick(show)}>
-        Confirm show
-      </button>
+      <div className="flex flex-wrap gap-2">
+        <button type="button" className="w-fit rounded-md border border-current px-4 py-2 text-sm" data-testid="confirm-show" onClick={() => onPick(show)}>
+          Confirm show
+        </button>
+        <BuildReport show={show} />
+      </div>
       <ProfileResult profile={profile} />
     </div>
   );
@@ -155,6 +160,64 @@ function ProfileResult({ profile }: { profile: ProfileState }) {
   if (profile.kind === "failed") return <p data-testid="profile-failed">The taste card could not be loaded.</p>;
   if (profile.kind === "ready") return <TasteCardView card={profile.card} />;
   return null;
+}
+
+function BuildReport({ show }: { show: PodcastCandidate }) {
+  const router = useRouter();
+  const [state, setState] = useState<"idle" | "starting" | "failed">("idle");
+  const [message, setMessage] = useState<string | undefined>();
+  return (
+    <div className="flex flex-col gap-2">
+      <button
+        type="button"
+        className="w-fit rounded-md border border-current px-4 py-2 text-sm disabled:opacity-40"
+        data-testid="build-report"
+        disabled={state === "starting"}
+        onClick={() => void startReport(show, router, setState, setMessage)}
+      >
+        Build report
+      </button>
+      {state === "starting" ? <p data-testid="report-starting">Starting report.</p> : null}
+      {state === "failed" ? <p data-testid="report-start-error">{message ?? "The report could not be started."}</p> : null}
+    </div>
+  );
+}
+
+async function startReport(
+  show: PodcastCandidate,
+  router: ReturnType<typeof useRouter>,
+  setState: (state: "idle" | "starting" | "failed") => void,
+  setMessage: (message: string | undefined) => void,
+) {
+  setState("starting");
+  setMessage(undefined);
+  try {
+    const response = await fetch("/api/report", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ input: { showQuery: show.name }, showId: show.id }),
+    });
+    const payload: unknown = await response.json().catch(() => null);
+    const parsed = reportAcceptedSchema.safeParse(payload);
+    if (!response.ok || !parsed.success) {
+      setState("failed");
+      setMessage(readStartError(payload));
+      return;
+    }
+    router.push(`/r/${parsed.data.reportId}`);
+  } catch {
+    setState("failed");
+    setMessage("The report could not be started.");
+  }
+}
+
+function readStartError(payload: unknown): string {
+  if (!payload || typeof payload !== "object" || !("error" in payload)) return "The report could not be started.";
+  const error = payload.error;
+  if (!error || typeof error !== "object" || !("message" in error) || typeof error.message !== "string") {
+    return "The report could not be started.";
+  }
+  return error.message;
 }
 
 async function loadProfile(show: PodcastCandidate, setProfile: (state: ProfileState) => void) {
