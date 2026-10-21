@@ -93,7 +93,7 @@ Show flow: Home posts nothing until you submit. It also lists featured reports f
 
 ## Deploy
 
-Production target (D-025): one always-on, non-preemptible Compute Engine `e2-micro` in `us-central1-a`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No load balancer. The VM `overindex` (project `hackathon-460016`) is running `overindex:s10a`. On 2026-10-21, `GET /api/health` on `http://34.67.15.187/api/health` returned `qloo: ready`. That external IP is ephemeral. `GET /api/featured` returned an empty list, and Home says no featured reports are cached on this server yet. The earlier image `overindex:s2b` is still on the VM disk and is not the running container.
+Production target (D-025): one always-on, non-preemptible Compute Engine `e2-micro` in `us-central1-a`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No load balancer. The VM `overindex` (project `hackathon-460016`) is running `overindex:s10a`. On 2026-10-21, `GET /api/health` on `http://34.67.15.187/api/health` returned `qloo: ready`. That external IP is ephemeral. `GET /api/featured` returns four cached reports dated 2026-10-21: This Week in Startups, SmartLess, New Heights with Jason & Travis Kelce, and Gastropod. Those files were generated on the operator machine and copied to the VM cache. The synthetic cache was not copied. `POST /api/report` on this image returns 500 because `eval/dataset/lane_a_buyers.csv` is not in the image. The earlier image `overindex:s2b` is still on the VM disk and is not the running container.
 
 `fly.toml` is a comment-only remnant of the previous host. It has no app or region. Do not run `fly deploy`.
 
