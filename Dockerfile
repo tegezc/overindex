@@ -42,6 +42,8 @@ RUN npm install --global @qloo/qloo-harness@0.1.26 \
 
 COPY --from=build --chown=app:nodejs /app/.next/standalone ./
 COPY --from=build --chown=app:nodejs /app/.next/static ./.next/static
+# The Method page reads this file from the process working directory. Next does not bundle it.
+COPY --from=build --chown=app:nodejs /app/eval/dataset/shows.csv ./eval/dataset/shows.csv
 COPY entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r$//' /entrypoint.sh && chmod 755 /entrypoint.sh
 

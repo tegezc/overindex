@@ -16,7 +16,7 @@ The eval harness checks the stored split and computes rankings, metrics, and boo
 
 ## Evaluation
 
-One test run finished at 2026-10-21 03:17 WIB. It was not repeated. Locked settings: alpha 1, lambda 0, prompt A.1a, baseline basket-8, no quadrant threshold. Product fit still uses alpha 0.5 and a quadrant cutoff of 0.7. Those product constants were not the settings for this run.
+One test run finished at 2026-10-21 03:17 WIB. It was not repeated. Locked settings: alpha 1, lambda 0, prompt A.1a, baseline basket-8, no quadrant threshold. Product fit now uses that same alpha, 1, so fit equals the show percentile. The quadrant cutoff stays 0.7 because the locked threshold is none. That cutoff was not a result of the test run.
 
 No difference was detected between overindex and the language-model list on the test split (n = 15). The Jaccard difference (overindex minus the language-model list) is -0.0094 (95% CI -0.0223 to 0.0048). That interval does not lie entirely below zero. The recall@20 difference is -0.1064 (95% CI -0.2193 to -0.0255). That interval lies entirely below zero. A tighter list is not reported as better unless both conditions hold.
 
@@ -93,7 +93,7 @@ Show flow: Home posts nothing until you submit. It also lists featured reports f
 
 ## Deploy
 
-Production target (D-025): one always-on, non-preemptible Compute Engine `e2-micro` in `us-central1-a`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No load balancer. The VM `overindex` (project `hackathon-460016`) is running that container. On 2026-10-20, `GET /api/health` on its public HTTP URL returned `qloo: ready`. The external IP is ephemeral.
+Production target (D-025): one always-on, non-preemptible Compute Engine `e2-micro` in `us-central1-a`, with a 10 GB standard boot disk and `CACHE_DIR=/data` on that disk. No load balancer. The VM `overindex` (project `hackathon-460016`) is running `overindex:s10a`. On 2026-10-21, `GET /api/health` on `http://34.67.15.187/api/health` returned `qloo: ready`. That external IP is ephemeral. `GET /api/featured` returned an empty list, and Home says no featured reports are cached on this server yet. The earlier image `overindex:s2b` is still on the VM disk and is not the running container.
 
 `fly.toml` is a comment-only remnant of the previous host. It has no app or region. Do not run `fly deploy`.
 
@@ -110,7 +110,7 @@ OPENAI_API_KEY=...
 
 Do not print that file, paste it into chat, or pass the values as `gcloud` arguments. Copy it to the VM and install it with `deploy/gce/install-env.sh`, which writes `/etc/overindex.env` mode 600 and prints only `QLOO_API_KEY set` and `OPENAI_API_KEY set`. On 2026-10-20 that script reported both names set. The values are not in this repo.
 
-Public acceptance for this skeleton, met 2026-10-20: `GET /api/health` returned `qloo: ready`.
+Public health for the current image, checked 2026-10-21: `GET /api/health` returned `qloo: ready`. The 2026-10-20 check was the skeleton image.
 
 ## Scripts
 

@@ -7,7 +7,10 @@ deploy
 .env.*
 .cache
 coverage
-eval
+# Method imports eval/src and the test aggregate JSON, and reads shows.csv at runtime.
+# Sponsor tables are not part of that page, so they stay out of the image context.
+eval/dataset/*
+!eval/dataset/shows.csv
 scripts
 **/*.test.ts
 npm-debug.log*

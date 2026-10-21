@@ -1,11 +1,13 @@
 /**
- * Pre-lock scoring constants. Eval dev may replace them (`eval-protocol.md` §6.4).
- * `fit` mixes two 0–1 terms, so the quadrant threshold is an absolute cutoff on `fit`.
+ * Product scoring constants.
+ * `FIT_ALPHA` is the locked eval alpha (1). Lift then has weight 0, so `fit` equals `pctShow`.
+ * The quadrant cutoff stays 0.7 because the locked eval threshold is null.
+ * `SCORING_VERSION` is unchanged so stored baseline affinities keep their cache key.
  * Reach bands and popularity bands are uncalibrated.
  */
 export const SCORING_VERSION = "2026-10-20-prelock";
 
-export const FIT_ALPHA = 0.5;
+export const FIT_ALPHA = 1;
 export const QUADRANT_FIT_THRESHOLD = 0.7;
 export const LLM_PREDICTED_MAX_RANK = 20;
 

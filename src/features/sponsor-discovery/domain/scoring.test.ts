@@ -42,9 +42,9 @@ describe("normalizeLift", () => {
 });
 
 describe("fit", () => {
-  it("uses alpha 0.5 by default", () => {
-    expect(FIT_ALPHA).toBe(0.5);
-    expect(fit(1, 0.5)).toBeCloseTo(0.75);
+  it("uses the locked alpha 1 by default", () => {
+    expect(FIT_ALPHA).toBe(1);
+    expect(fit(1, 0.5)).toBeCloseTo(1);
     expect(fit(1, 0, 1)).toBe(1);
     expect(fit(0.2, 0.8, 0)).toBeCloseTo(0.8);
   });

@@ -54,11 +54,11 @@ describe("buildShortlist", () => {
     expect(alpha?.quadrant).toBe("proven");
     expect(alpha?.flags.renewal).toBe(true);
     expect(alpha?.reachBand).toBe("household");
-    expect(alpha?.fit).toBeCloseTo(0.875);
+    expect(alpha?.fit).toBeCloseTo(1);
     expect(alpha?.origins).toEqual(["qloo_discovery", "llm_baseline", "lane_a", "user_sponsor"]);
     expect(beta?.lane).toBe("B");
     expect(beta?.quadrant).toBe("none");
-    expect(beta?.fit).toBeCloseTo(0.375);
+    expect(beta?.fit).toBeCloseTo(0.5);
     expect(beta?.reachBand).toBe("established");
     expect(beta?.flags.renewal).toBeUndefined();
   });
