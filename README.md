@@ -140,16 +140,16 @@ Public UI only, saved 2026-10-22. They are not a substitute for the demo. They d
 
 | File | What it shows |
 | --- | --- |
-| `submission/screenshots/home-featured.png` | Home. Four featured reports dated 2026-10-21 |
-| `submission/screenshots/featured-taste-card.png` | Taste card, tags, status ok |
-| `submission/screenshots/featured-taste-domains.png` | Taste card domains |
-| `submission/screenshots/featured-quadrant.png` | Fit quadrant |
-| `submission/screenshots/featured-without-qloo.png` | Without Qloo toggle open |
-| `submission/screenshots/featured-bridge-skipped.png` | Drawer. Bridge skipped. Trend skipped. No email button |
-| `submission/screenshots/featured-claim-drawer.png` | Pitch heading and the first source labels |
-| `submission/screenshots/featured-claim-labels.png` | Nine claims labeled `Qloo` or `input Anda` |
-| `submission/screenshots/method-results.png` | Method. No difference was detected |
-| `submission/screenshots/method-limitations.png` | Method limitations, including no preference test |
+| [home-featured.png](submission/screenshots/home-featured.png) | Home. Four featured reports dated 2026-10-21 |
+| [featured-taste-card.png](submission/screenshots/featured-taste-card.png) | Taste card, tags, status ok |
+| [featured-taste-domains.png](submission/screenshots/featured-taste-domains.png) | Taste card domains |
+| [featured-quadrant.png](submission/screenshots/featured-quadrant.png) | Fit quadrant |
+| [featured-without-qloo.png](submission/screenshots/featured-without-qloo.png) | Without Qloo toggle open |
+| [featured-bridge-skipped.png](submission/screenshots/featured-bridge-skipped.png) | Drawer. Bridge skipped. Trend skipped. No email button |
+| [featured-claim-drawer.png](submission/screenshots/featured-claim-drawer.png) | Pitch heading and the first source labels |
+| [featured-claim-labels.png](submission/screenshots/featured-claim-labels.png) | Nine claims labeled `Qloo` or `input Anda` |
+| [method-results.png](submission/screenshots/method-results.png) | Method. No difference was detected |
+| [method-limitations.png](submission/screenshots/method-limitations.png) | Method limitations, including no preference test |
 
 ## Limitations
 
