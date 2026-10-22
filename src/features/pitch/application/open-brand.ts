@@ -1,15 +1,28 @@
 import { findBridges } from "@/features/sponsor-discovery/application/find-bridges";
+import { BRIDGE_COUNT_LABEL } from "@/features/sponsor-discovery/domain/bridges";
+import { loadReport } from "@/features/report/application/load-report";
 import type { ReportRun } from "@/features/report/application/execute-report";
+import type { Report } from "@/features/report/domain/report";
 import { businessEvidence, candidateEvidence } from "../domain/candidate-evidence";
 import { brandDrawerSchema, MOMENTUM_SKIPPED, type BrandDrawer } from "../domain/drawer";
 import { finalizePitch } from "../domain/draft-pitch";
-import type { Evidence, PitchDraft } from "../domain/evidence";
+import { evidenceSchema, type Evidence, type PitchDraft } from "../domain/evidence";
 
 export class BrandLookupError extends Error {
-  constructor(readonly code: "NOT_READY" | "NOT_ON_REPORT" | "NO_SERVICES") {
+  constructor(readonly code: "NOT_FOUND" | "NOT_READY" | "NOT_ON_REPORT" | "NO_SERVICES") {
     super(code);
   }
 }
+
+/** Shown when a saved report has no bridge records. This path does not call Qloo to fill the gap. */
+export const BRIDGES_NOT_STORED_NOTE =
+  "Shared TV shows were not saved with this report. Opening this brand did not request them from Qloo.";
+
+const BRIDGES_SAVED_NOTE =
+  "Shared TV shows were already saved on this report. Opening this brand did not request them from Qloo.";
+
+const BRIDGES_SAVED_WITHOUT_COUNT_NOTE =
+  "Some shared-TV records were saved without a count. Opening this brand did not request them from Qloo.";
 
 const drawers = new WeakMap<ReportRun, Map<string, BrandDrawer>>();
 const jobs = new WeakMap<ReportRun, Map<string, Promise<BrandDrawer>>>();
@@ -39,6 +52,70 @@ export async function openBrand(run: ReportRun, brandId: string): Promise<BrandD
   );
   pending.set(brandId, job);
   return job;
+}
+
+/**
+ * Brand drawer for a report that is not on the memory board.
+ * Scores come from the candidate already stored on the report.
+ * Bridges come only from bridge evidence already stored there. Nothing here calls Qloo.
+ */
+export function openStoredBrand(report: Report, brandId: string): BrandDrawer {
+  const section = report.sections.candidates;
+  if (section.status === "pending") throw new BrandLookupError("NOT_READY");
+  const candidate = section.data?.find((item) => item.brand.id === brandId);
+  if (!candidate) throw new BrandLookupError("NOT_ON_REPORT");
+
+  const built = candidateEvidence({
+    reportId: report.id,
+    createdAt: report.createdAt,
+    showQuery: report.input.showQuery,
+    candidate,
+  });
+  const bridges = storedBridges(report, brandId);
+  return brandDrawerSchema.parse({
+    brandId,
+    scores: built.scores,
+    bridges: {
+      status: bridges.status,
+      note: bridges.note,
+    },
+    momentum: MOMENTUM_SKIPPED,
+    evidence: [...built.evidence, ...bridges.evidence],
+    budget: report.budget,
+    ...(built.categoryNote ? { categoryNote: built.categoryNote } : {}),
+  });
+}
+
+export async function openBrandForRequest(
+  id: string,
+  brandId: string,
+  readStored?: (id: string) => Promise<Report | undefined>,
+): Promise<BrandDrawer> {
+  const loaded = await loadReport(id, readStored);
+  if (!loaded) throw new BrandLookupError("NOT_FOUND");
+  if (loaded.kind === "memory") return openBrand(loaded.run, brandId);
+  return openStoredBrand(loaded.report, brandId);
+}
+
+export async function pitchForRequest(
+  id: string,
+  brandId: string,
+  userInputs?: { downloadsPerEpisode?: number; cpm?: number },
+  readStored?: (id: string) => Promise<Report | undefined>,
+): Promise<PitchDraft> {
+  const loaded = await loadReport(id, readStored);
+  if (!loaded) throw new BrandLookupError("NOT_FOUND");
+  const report = loaded.kind === "memory" ? loaded.run.report : loaded.report;
+  const drawer = loaded.kind === "memory" ? await openBrand(loaded.run, brandId) : openStoredBrand(report, brandId);
+  const candidate = report.sections.candidates.data?.find((item) => item.brand.id === brandId);
+  if (!candidate) throw new BrandLookupError("NOT_ON_REPORT");
+  return pitchBrand({
+    reportId: report.id,
+    brandId,
+    brandName: candidate.brand.name,
+    evidence: drawer.evidence,
+    business: userInputs ?? report.input.business,
+  });
 }
 
 export function pitchBrand(input: {
@@ -121,4 +198,36 @@ async function buildBrand(run: ReportRun, brandId: string): Promise<BrandDrawer>
   } finally {
     stop();
   }
+}
+
+/**
+ * Bridge titles on a saved report are text, not entity ids.
+ * Do not invent ids, and do not call Qloo to recover them.
+ */
+function storedBridges(report: Report, brandId: string): {
+  status: "ok" | "empty" | "partial" | "skipped";
+  note: string;
+  evidence: Evidence[];
+} {
+  const prefix = `bridge:${brandId}:`;
+  const evidence: Evidence[] = [];
+  for (const [key, value] of Object.entries(report.evidence)) {
+    const parsed = evidenceSchema.safeParse(value);
+    if (!parsed.success || parsed.data.kind !== "bridge") continue;
+    if (!parsed.data.id.startsWith(prefix) && !key.startsWith(prefix)) continue;
+    evidence.push(parsed.data);
+  }
+  if (evidence.length === 0) {
+    return { status: "skipped", note: BRIDGES_NOT_STORED_NOTE, evidence: [] };
+  }
+  const countItem = evidence.find((item) => item.label === BRIDGE_COUNT_LABEL && typeof item.value === "number");
+  const count = typeof countItem?.value === "number" ? countItem.value : undefined;
+  if (count === undefined) {
+    return { status: "partial", note: BRIDGES_SAVED_WITHOUT_COUNT_NOTE, evidence };
+  }
+  return {
+    status: count === 0 ? "empty" : "ok",
+    note: BRIDGES_SAVED_NOTE,
+    evidence,
+  };
 }

@@ -8,9 +8,11 @@ deploy
 .cache
 coverage
 # Method imports eval/src and the test aggregate JSON, and reads shows.csv at runtime.
-# Sponsor tables are not part of that page, so they stay out of the image context.
+# Report start reads lane_a_buyers.csv from the working directory. That file is the
+# Lane A catalog (brand_norm names). Ground truth and the other sponsor tables stay out.
 eval/dataset/*
 !eval/dataset/shows.csv
+!eval/dataset/lane_a_buyers.csv
 scripts
 **/*.test.ts
 npm-debug.log*

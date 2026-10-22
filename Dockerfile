@@ -42,8 +42,10 @@ RUN npm install --global @qloo/qloo-harness@0.1.26 \
 
 COPY --from=build --chown=app:nodejs /app/.next/standalone ./
 COPY --from=build --chown=app:nodejs /app/.next/static ./.next/static
-# The Method page reads this file from the process working directory. Next does not bundle it.
+# Method reads shows.csv from the working directory. Report start reads the Lane A
+# catalog the same way. Ground truth and the other sponsor tables are not copied (D-029).
 COPY --from=build --chown=app:nodejs /app/eval/dataset/shows.csv ./eval/dataset/shows.csv
+COPY --from=build --chown=app:nodejs /app/eval/dataset/lane_a_buyers.csv ./eval/dataset/lane_a_buyers.csv
 COPY entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r$//' /entrypoint.sh && chmod 755 /entrypoint.sh
 
