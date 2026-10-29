@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>overindex thumbnail</title>
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1500px;
+    height: 1000px;
+    overflow: hidden;
+    background: #0a0a0a;
+    color: #ededed;
+    font-family: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  }
+  .page {
+    box-sizing: border-box;
+    width: 1500px;
+    height: 1000px;
+    padding: 80px 72px;
+    display: flex;
+    gap: 64px;
+  }
+  .copy {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .kicker {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: 0.16em;
+    color: #a3a3a3;
+  }
+  h1 {
+    margin: 28px 0 0;
+    font-size: 92px;
+    line-height: 0.95;
+    font-weight: 650;
+    letter-spacing: -0.045em;
+  }
+  .lead {
+    margin: 36px 0 0;
+    max-width: 680px;
+    font-size: 40px;
+    line-height: 1.25;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .source {
+    margin: 28px 0 0;
+    font-size: 22px;
+    line-height: 1.4;
+    color: #a3a3a3;
+  }
+  .note {
+    margin: auto 0 0;
+    font-size: 22px;
+    line-height: 1.4;
+    color: #a3a3a3;
+  }
+  .panel {
+    width: 520px;
+    flex: none;
+    border: 1px solid #2a2a2a;
+    background: #141414;
+    display: flex;
+    flex-direction: column;
+  }
+  .cell {
+    flex: 1;
+    padding: 0 40px;
+    border-bottom: 1px solid #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .cell:last-child { border-bottom: 0; }
+  .cell h2 {
+    margin: 0;
+    font-size: 32px;
+    line-height: 1.15;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+  }
+  .cell p {
+    margin: 10px 0 0;
+    font-size: 22px;
+    line-height: 1.35;
+    color: #a3a3a3;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="copy">
+      <p class="kicker">SPONSOR REPORT</p>
+      <h1>overindex</h1>
+      <p class="lead">Name a podcast. Get the brands its audience over-indexes on.</p>
+      <p class="source">From the Qloo taste graph.</p>
+      <p class="note">A cell can be empty.</p>
+    </div>
+    <div class="panel" aria-label="Fit quadrant">
+      <div class="cell">
+        <h2>Proven</h2>
+        <p>On the model list, above the cutoff</p>
+      </div>
+      <div class="cell">
+        <h2>Hidden</h2>
+        <p>Above the cutoff, not on that list</p>
+      </div>
+      <div class="cell">
+        <h2>Category-only</h2>
+        <p>On the model list, below the cutoff</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

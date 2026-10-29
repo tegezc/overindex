@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>overindex architecture</title>
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1800px;
+    height: 1200px;
+    overflow: hidden;
+    background: #ffffff;
+    color: #171717;
+    font-family: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  }
+  .page {
+    box-sizing: border-box;
+    width: 1800px;
+    height: 1200px;
+    padding: 52px 64px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  h1 {
+    margin: 0;
+    font-size: 52px;
+    line-height: 1.05;
+    font-weight: 650;
+    letter-spacing: -0.035em;
+  }
+  .sub {
+    margin: 10px 0 0;
+    font-size: 26px;
+    line-height: 1.3;
+    color: #525252;
+  }
+  .row, .cols { display: flex; gap: 20px; }
+  .cols { flex: 1; }
+  .box {
+    flex: 1;
+    border: 1px solid #d4d4d4;
+    padding: 22px 26px 20px;
+    background: #ffffff;
+  }
+  .label {
+    margin: 0 0 8px;
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #737373;
+  }
+  h2 {
+    margin: 0 0 10px;
+    font-size: 28px;
+    line-height: 1.15;
+    font-weight: 650;
+    letter-spacing: -0.025em;
+  }
+  p {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.35;
+    color: #404040;
+  }
+  p + p { margin-top: 12px; }
+  .foot {
+    margin: 0;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 16px;
+    font-size: 22px;
+    line-height: 1.35;
+    color: #525252;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>How a report is built</h1>
+      <p class="sub">A fixed sequence. The model does not choose the tools.</p>
+    </header>
+    <div class="row">
+      <section class="box">
+        <p class="label">Start</p>
+        <h2>Browser</h2>
+        <p>A podcast name, or a featured report already saved on the server.</p>
+      </section>
+      <section class="box">
+        <p class="label">App</p>
+        <h2>Next.js on one VM</h2>
+        <p>The page and the API are one app on Compute Engine. A live report streams over SSE. The API key stays on the server.</p>
+      </section>
+    </div>
+    <div class="row">
+      <section class="box">
+        <p class="label">No new calls</p>
+        <h2>Featured report</h2>
+        <p>Read from disk. Opening one does not call Qloo and does not start a live report.</p>
+      </section>
+      <section class="box">
+        <p class="label">Live report</p>
+        <h2>Fixed orchestrator</h2>
+        <p>Target 25 Qloo calls. Hard cap 40. Past the plan, the candidate section is marked partial.</p>
+      </section>
+    </div>
+    <div class="cols">
+      <section class="box">
+        <p class="label">Taste graph</p>
+        <h2>Qloo harness 0.1.26</h2>
+        <p>Workflows: describe, entity tags, demographics, and recommend for artist, TV show, movie, and book.</p>
+        <p>Insights: two popularity bands, scores for the shared candidate set, and a baseline from a fixed basket of eight podcasts.</p>
+        <p>Calls run only when the base URL is hackathon.api.qloo.com.</p>
+      </section>
+      <section class="box">
+        <p class="label">Two structured steps</p>
+        <h2>Language model</h2>
+        <p>Narrow a show match when more than one candidate is plausible.</p>
+        <p>Write the Without Qloo list from the show name and a description. That step does not receive affinity scores.</p>
+      </section>
+      <section class="box">
+        <p class="label">On the server</p>
+        <h2>Scoring and pitch</h2>
+        <p>Percentile, lane, and quadrant. Fit equals the show's affinity percentile.</p>
+        <p>The pitch is built from evidence already on the report. It does not call a model. Numbers that are not in the evidence are dropped.</p>
+      </section>
+    </div>
+    <p class="foot">Not called: rank, audience compare, and trends.</p>
+  </div>
+</body>
+</html>

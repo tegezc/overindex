@@ -151,6 +151,15 @@ Public UI only, saved 2026-10-22. They are not a substitute for the demo. They d
 | [method-results.png](submission/screenshots/method-results.png) | Method. No difference was detected |
 | [method-limitations.png](submission/screenshots/method-limitations.png) | Method limitations, including no preference test |
 
+## Devpost figures
+
+Not UI captures. Made 2026-10-30 for the Devpost form. They are not on the Devpost page yet. The HTML file next to each PNG is the source.
+
+| File | What it shows |
+| --- | --- |
+| [thumbnail.png](submission/thumbnail.png) | 1500×1000. Project name, the home sentence, and the three quadrant labels. No brand names and no measured figures |
+| [architecture.png](submission/architecture.png) | 1800×1200. How a report is built. The model does not choose the tools. A featured report is read from disk |
+
 ## Limitations
 
 One test run finished at 2026-10-21 03:17 WIB. It was not repeated. Locked settings: alpha 1, lambda 0, prompt A.1a, baseline basket-8, no quadrant threshold. The full tables are on the public Method page.
